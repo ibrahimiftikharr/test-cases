@@ -18,7 +18,7 @@ public class MernAppTests {
 
     private WebDriver driver;
     private WebDriverWait wait;
-    private static final String BASE_URL = "http://localhost:3000";
+    private static final String BASE_URL = "http://13.61.134.227:8082/";
     private static final Duration TIMEOUT = Duration.ofSeconds(10);
 
     @BeforeEach
@@ -57,7 +57,7 @@ public class MernAppTests {
         passwordInput.sendKeys("Password123");
         
         // Click login button
-        WebElement loginButton = driver.findElement(By.css("button[type='submit'].loginButton"));
+        WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit'].loginButton"));
         assertNotNull(loginButton, "Login button should be present");
         loginButton.click();
         
@@ -82,7 +82,7 @@ public class MernAppTests {
         WebElement passwordInput = driver.findElement(By.id("loginPassword"));
         passwordInput.sendKeys("Password123");
         
-        WebElement loginButton = driver.findElement(By.css("button[type='submit'].loginButton"));
+        WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit'].loginButton"));
         loginButton.click();
         
         // Wait for error message
@@ -104,7 +104,7 @@ public class MernAppTests {
         WebElement emailInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("loginEmail")));
         emailInput.sendKeys("testuser@example.com");
         
-        WebElement loginButton = driver.findElement(By.css("button[type='submit'].loginButton"));
+        WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit'].loginButton"));
         loginButton.click();
         
         // Check for validation error
@@ -137,11 +137,11 @@ public class MernAppTests {
         confirmPasswordInput.sendKeys("SecurePass123");
         
         // Select user type
-        WebElement jobSeekerRadio = driver.findElement(By.css("input[value='jobseeker']"));
+        WebElement jobSeekerRadio = driver.findElement(By.cssSelector("input[value='jobseeker']"));
         jobSeekerRadio.click();
         
         // Submit form
-        WebElement signupButton = driver.findElement(By.css("button[type='submit'].signupButton"));
+        WebElement signupButton = driver.findElement(By.cssSelector("button[type='submit'].signupButton"));
         signupButton.click();
         
         // Wait for success message or redirect
@@ -169,7 +169,7 @@ public class MernAppTests {
         WebElement confirmPasswordInput = driver.findElement(By.name("confirmPassword"));
         confirmPasswordInput.sendKeys("DifferentPass456");
         
-        WebElement signupButton = driver.findElement(By.css("button[type='submit'].signupButton"));
+        WebElement signupButton = driver.findElement(By.cssSelector("button[type='submit'].signupButton"));
         signupButton.click();
         
         // Check for error message
@@ -199,7 +199,7 @@ public class MernAppTests {
         WebElement confirmPasswordInput = driver.findElement(By.name("confirmPassword"));
         confirmPasswordInput.sendKeys("SecurePass123");
         
-        WebElement signupButton = driver.findElement(By.css("button[type='submit'].signupButton"));
+        WebElement signupButton = driver.findElement(By.cssSelector("button[type='submit'].signupButton"));
         signupButton.click();
         
         // Check for duplicate email error
@@ -232,11 +232,11 @@ public class MernAppTests {
         // Select location from dropdown
         WebElement locationSelect = driver.findElement(By.id("jobLocation"));
         locationSelect.click();
-        WebElement locationOption = driver.findElement(By.css("option[value='New York']"));
+        WebElement locationOption = driver.findElement(By.cssSelector("option[value='New York']"));
         locationOption.click();
         
         // Submit form
-        WebElement submitButton = driver.findElement(By.css("button[type='submit'].submitJobButton"));
+        WebElement submitButton = driver.findElement(By.cssSelector("button[type='submit'].submitJobButton"));
         submitButton.click();
         
         // Verify success
@@ -268,7 +268,7 @@ public class MernAppTests {
         portfolioInput.sendKeys("https://myportfolio.com");
         
         // Submit application
-        WebElement submitApplicationButton = driver.findElement(By.css("button[type='submit'].submitApplicationButton"));
+        WebElement submitApplicationButton = driver.findElement(By.cssSelector("button[type='submit'].submitApplicationButton"));
         submitApplicationButton.click();
         
         // Verify success
@@ -286,7 +286,7 @@ public class MernAppTests {
         driver.get(BASE_URL + "/dashboard/post-job");
         
         // Try to submit without filling any fields
-        WebElement submitButton = wait.until(ExpectedConditions.elementToBeClickable(By.css("button[type='submit'].submitJobButton")));
+        WebElement submitButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("button[type='submit'].submitJobButton")));
         submitButton.click();
         
         // Check for validation errors
@@ -312,7 +312,7 @@ public class MernAppTests {
         bioInput.sendKeys("Experienced software engineer with passion for building great applications.");
         
         // Save changes
-        WebElement saveButton = driver.findElement(By.css("button[type='submit'].saveProfileButton"));
+        WebElement saveButton = driver.findElement(By.cssSelector("button[type='submit'].saveProfileButton"));
         saveButton.click();
         
         // Verify update
@@ -338,7 +338,7 @@ public class MernAppTests {
         WebElement passwordInput = driver.findElement(By.id("loginPassword"));
         passwordInput.sendKeys("Password123");
         
-        WebElement loginButton = driver.findElement(By.css("button[type='submit'].loginButton"));
+        WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit'].loginButton"));
         loginButton.click();
         
         // Navigate to dashboard
@@ -377,7 +377,7 @@ public class MernAppTests {
         assertNotNull(jobsList, "Posted jobs list should be visible");
         
         // Verify job items are displayed
-        WebElement jobItem = driver.findElement(By.css("div.jobItem"));
+        WebElement jobItem = driver.findElement(By.cssSelector("div.jobItem"));
         assertTrue(jobItem.isDisplayed(), "Job item should be visible");
         
         // Check for job information
@@ -397,7 +397,7 @@ public class MernAppTests {
         assertNotNull(applicationsSection, "Applications section should be visible");
         
         // Verify applications are displayed
-        WebElement applicationCard = driver.findElement(By.css("div.applicationCard"));
+        WebElement applicationCard = driver.findElement(By.cssSelector("div.applicationCard"));
         assertTrue(applicationCard.isDisplayed(), "Application card should be visible");
         
         // Check application status
@@ -420,7 +420,7 @@ public class MernAppTests {
         WebElement passwordInput = driver.findElement(By.id("loginPassword"));
         passwordInput.sendKeys("Password123");
         
-        WebElement loginButton = driver.findElement(By.css("button[type='submit'].loginButton"));
+        WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit'].loginButton"));
         loginButton.click();
         
         // Wait for dashboard to load
@@ -456,7 +456,7 @@ public class MernAppTests {
         assertNotNull(navMenu, "Navigation menu should be present");
         
         // Click user dropdown
-        WebElement userDropdown = driver.findElement(By.css("button.userDropdownToggle"));
+        WebElement userDropdown = driver.findElement(By.cssSelector("button.userDropdownToggle"));
         userDropdown.click();
         
         // Click logout option
@@ -481,7 +481,7 @@ public class MernAppTests {
         WebElement passwordInput = driver.findElement(By.id("loginPassword"));
         passwordInput.sendKeys("Password123");
         
-        WebElement loginButton = driver.findElement(By.css("button[type='submit'].loginButton"));
+        WebElement loginButton = driver.findElement(By.cssSelector("button[type='submit'].loginButton"));
         loginButton.click();
         
         wait.until(ExpectedConditions.urlContains("/dashboard"));
