@@ -69,6 +69,120 @@ public void testSignupWithValidInformation() {
 }
 
 
+@Test
+@DisplayName("Signup with missing email shows error alert")
+public void testSignupWithMissingEmail() {
+    driver.get(BASE_URL);
+
+    WebElement passwordInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("password")));
+    passwordInput.sendKeys("SecurePass123");
+
+    WebElement jobseekerRadio = driver.findElement(By.id("jobseeker"));
+    jobseekerRadio.click();
+
+    WebElement signupButton = driver.findElement(By.cssSelector("button.btn-color"));
+    signupButton.click();
+
+    Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+    String alertText = alert.getText();
+    assertEquals("One or more fields are missing!", alertText);
+    alert.accept();
+}
+
+
+@Test
+@DisplayName("Signup with invalid email shows inline error message")
+public void testSignupWithInvalidEmail() {
+    driver.get(BASE_URL);
+
+    // Enter invalid email
+    WebElement emailInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("email")));
+    emailInput.sendKeys("invalid-email");
+
+    // Enter password
+    WebElement passwordInput = driver.findElement(By.id("password"));
+    passwordInput.sendKeys("SecurePass123");
+
+    // Select jobseeker role
+    WebElement jobseekerRadio = driver.findElement(By.id("jobseeker"));
+    jobseekerRadio.click();
+
+    // Click Signup
+    WebElement signupButton = driver.findElement(By.cssSelector("button.btn-color"));
+    signupButton.click();
+
+    // Check inline error message
+    WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("p.error")));
+    String errorText = errorMessage.getText();
+    assertEquals("Please enter a valid email address.", errorText);
+}
+
+
+@Test
+@DisplayName("Signin with valid jobseeker credentials shows success alert")
+public void testSigninValidJobseeker() {
+    driver.get("http://13.61.134.227:8082/signin");
+
+    WebElement emailInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("email")));
+    emailInput.sendKeys("ibrahim@gmail.com");
+
+    WebElement passwordInput = driver.findElement(By.id("password"));
+    passwordInput.sendKeys("123456");
+
+    WebElement signinButton = driver.findElement(By.id("signin"));
+    signinButton.click();
+
+    // Wait for alert
+    Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+    String alertText = alert.getText();
+    assertEquals("Logged in successfully!", alertText);
+    alert.accept();
+}
+
+
+@Test
+@DisplayName("Signin with invalid email shows alert")
+public void testSigninInvalidEmail() {
+    driver.get("http://13.61.134.227:8082/signin");
+
+    WebElement emailInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("email")));
+    emailInput.sendKeys("nonexistent@example.com");
+
+    WebElement passwordInput = driver.findElement(By.id("password"));
+    passwordInput.sendKeys("123456");
+
+    WebElement signinButton = driver.findElement(By.id("signin"));
+    signinButton.click();
+
+    Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+    String alertText = alert.getText();
+    assertEquals("Error: jobseeker with this email not found", alertText);
+    alert.accept();
+}
+
+
+@Test
+@DisplayName("Signin with invalid password shows alert")
+public void testSigninInvalidPassword() {
+    driver.get("http://13.61.134.227:8082/signin");
+
+    WebElement emailInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("email")));
+    emailInput.sendKeys("ibrahim@gmail.com");
+
+    WebElement passwordInput = driver.findElement(By.id("password"));
+    passwordInput.sendKeys("wrongpassword");
+
+    WebElement signinButton = driver.findElement(By.id("signin"));
+    signinButton.click();
+
+    Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+    String alertText = alert.getText();
+    assertEquals("Error: Invalid password", alertText);
+    alert.accept();
+}
+
+
+
 
     
 }
