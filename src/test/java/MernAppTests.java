@@ -41,34 +41,33 @@ public class MernAppTests {
         }
     }
 
-    @Test
-    @DisplayName("Signup with Valid Information shows success alert")
-    public void testSignupWithValidInformation() {
-        driver.get(BASE_URL);
 
-        // Fill email
-        WebElement emailInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("email")));
-        String uniqueEmail = "user" + System.currentTimeMillis() + "@example.com";
-        emailInput.sendKeys(uniqueEmail);
+  @Test
+@DisplayName("Signup with Valid Information shows success alert")
+public void testSignupWithValidInformation() {
+    driver.get(BASE_URL);
 
-        // Fill password
-        WebElement passwordInput = driver.findElement(By.id("password"));
-        passwordInput.sendKeys("SecurePass123");
+    WebElement emailInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("email")));
+    String uniqueEmail = "user" + System.currentTimeMillis() + "@example.com";
+    emailInput.sendKeys(uniqueEmail);
 
-        // Select role: jobseeker
-        WebElement jobseekerRadio = driver.findElement(By.id("jobseeker"));
-        jobseekerRadio.click();
+    WebElement passwordInput = driver.findElement(By.id("password"));
+    passwordInput.sendKeys("SecurePass123");
 
-        // Click signup button
-        WebElement signupButton = driver.findElement(By.cssSelector("button.btn-color"));
-        signupButton.click();
+    WebElement jobseekerRadio = driver.findElement(By.id("jobseeker"));
+    jobseekerRadio.click();
 
-        // Wait for success alert
-        WebElement successAlert = wait.until(
-            ExpectedConditions.presenceOfElementLocated(By.xpath("//*[contains(text(), 'Signup successful! PRESS SIGN IN NOW!')]"))
-        );
-        assertNotNull(successAlert, "Success alert should appear");
-        assertTrue(successAlert.isDisplayed(), "Success alert should be visible");
-        assertEquals("Signup successful! PRESS SIGN IN NOW!", successAlert.getText().trim());
-    }
+    WebElement signupButton = driver.findElement(By.cssSelector("button.btn-color"));
+    signupButton.click();
+
+    // Handle alert
+    Alert alert = wait.until(ExpectedConditions.alertIsPresent());
+    String alertText = alert.getText();
+    assertEquals("Signup successful! PRESS SIGN IN NOW!", alertText);
+    alert.accept(); // close the alert
+}
+
+
+
+    
 }
