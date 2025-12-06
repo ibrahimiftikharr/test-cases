@@ -13,8 +13,8 @@ import java.time.Duration;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@DisplayName("Signup Page Selenium Test")
-public class SignupPageTest {
+@DisplayName("MERN Application Selenium Tests")
+public class MernAppTests {
 
     private WebDriver driver;
     private WebDriverWait wait;
