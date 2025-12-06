@@ -23,10 +23,17 @@ public class MernAppTests {
 
     @BeforeEach
     public void setUp() {
-        ChromeOptions options = new ChromeOptions();
+       ChromeOptions options = new ChromeOptions();
+       options.addArguments("--headless=new"); // headless mode (new recommended)
+       options.addArguments("--no-sandbox"); // needed in Docker
+       options.addArguments("--disable-dev-shm-usage"); // avoids /dev/shm issues
+       options.addArguments("--remote-allow-origins=*"); // for newer ChromeDriver versions
+
+       options.addArguments("--user-data-dir=/tmp/unique-dir");
+
         driver = new ChromeDriver(options);
         wait = new WebDriverWait(driver, TIMEOUT);
-        driver.manage().window().maximize();
+      
     }
 
     @AfterEach
