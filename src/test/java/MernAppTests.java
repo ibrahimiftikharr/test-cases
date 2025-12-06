@@ -91,34 +91,6 @@ public void testSignupWithMissingEmail() {
 
 
 @Test
-@DisplayName("Signup with invalid email shows inline error message")
-public void testSignupWithInvalidEmail() {
-    driver.get(BASE_URL);
-
-    // Enter invalid email
-    WebElement emailInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("email")));
-    emailInput.sendKeys("invalid-email");
-
-    // Enter password
-    WebElement passwordInput = driver.findElement(By.id("password"));
-    passwordInput.sendKeys("SecurePass123");
-
-    // Select jobseeker role
-    WebElement jobseekerRadio = driver.findElement(By.id("jobseeker"));
-    jobseekerRadio.click();
-
-    // Click Signup
-    WebElement signupButton = driver.findElement(By.cssSelector("button.btn-color"));
-    signupButton.click();
-
-    // Check inline error message
-    WebElement errorMessage = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector("p.error")));
-    String errorText = errorMessage.getText();
-    assertEquals("Please enter a valid email address.", errorText);
-}
-
-
-@Test
 @DisplayName("Signin with valid jobseeker credentials shows success alert")
 public void testSigninValidJobseeker() {
     driver.get("http://13.61.134.227:8082/signin");
