@@ -89,7 +89,6 @@ public void testSignupWithMissingEmail() {
     alert.accept();
 }
 
-
 @Test
 @DisplayName("Signin with valid jobseeker credentials shows success alert")
 public void testSigninValidJobseeker() {
@@ -152,6 +151,108 @@ public void testSigninInvalidPassword() {
     assertEquals("Error: Invalid password", alertText);
     alert.accept();
 }
+
+    @Test
+    @DisplayName("Click 'View Job' opens popup with full job description")
+    public void testViewJobOpensPopup() {
+        loginAsJobseeker();
+        wait.until(ExpectedConditions.elementToBeClickable(
+            By.xpath("//button[contains(text(),'View Job')]"))).click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("popup-overlay")));
+        WebElement popup = driver.findElement(By.className("popup"));
+
+        assertEquals("Teacher", popup.findElement(By.tagName("h2")).getText());
+        String text = popup.getText();
+        assertTrue(text.contains("APSACS"));
+        assertTrue(text.contains("Mathematics teacher"));
+        assertTrue(text.contains("Islamabad"));
+        assertTrue(text.contains("60000"));
+        assertTrue(text.contains("Part Time"));
+    }
+
+    @Test
+    @DisplayName("My CV page shows 'No CV found' initially")
+    public void testMyCVPageShowsNoCVMessage() {
+        loginAsJobseeker();
+        driver.findElement(By.xpath("//button[text()='My CV']")).click();
+        String msg = driver.findElement(By.xpath("//div[contains(text(),'No CV found')]")).getText();
+        assertEquals("No CV found. Please create one.", msg.trim());
+    }
+
+    @Test
+    @DisplayName("All Jobs page shows Teacher job")
+    public void testAllJobsPageDisplaysJobListing() {
+        loginAsJobseeker();
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("jobsList")));
+        String text = driver.findElement(By.cssSelector("ul.jobsList > li")).getText();
+        assertTrue(text.contains("Teacher"));
+        assertTrue(text.contains("APSACS"));
+        assertTrue(text.contains("Islamabad, Pakistan"));
+        assertTrue(text.contains("60000"));
+    }
+
+    @Test
+    @DisplayName("New user cannot apply without CV → 'Create a CV first!'")
+    public void testNewUserCannotApplyWithoutCV() {
+        String email = "user" + System.currentTimeMillis() + "@test.com";
+
+        driver.get(BASE_URL + "/signup");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("email"))).sendKeys(email);
+        driver.findElement(By.id("password")).sendKeys("123456");
+        driver.findElement(By.id("jobseeker")).click();
+        driver.findElement(By.cssSelector("button.btn-color")).click();
+
+        Alert a = wait.until(ExpectedConditions.alertIsPresent());
+        assertTrue(a.getText().contains("success"));
+        a.accept();
+
+        driver.findElement(By.id("signin")).click();
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("email"))).sendKeys(email);
+        driver.findElement(By.id("password")).sendKeys("123456");
+        driver.findElement(By.id("signin")).click();
+
+        a = wait.until(ExpectedConditions.alertIsPresent());
+        assertEquals("Logged in successfully!", a.getText());
+        a.accept();
+
+        wait.until(ExpectedConditions.elementToBeClickable(
+            By.xpath("//button[contains(text(),'View Job')]"))).click();
+
+        wait.until(ExpectedConditions.visibilityOfElementLocated(By.className("popup-overlay")));
+        driver.findElement(By.xpath("//button[text()='Apply']")).click();
+
+        a = wait.until(ExpectedConditions.alertIsPresent());
+        assertEquals("Create a CV first!", a.getText());
+        a.accept();
+    }
+
+    @Test
+    @DisplayName("Logout works correctly")
+    public void testLogoutSuccessfully() {
+        loginAsJobseeker();
+        driver.findElement(By.xpath("//button[text()='Log Out']")).click();
+
+        Alert a = wait.until(ExpectedConditions.alertIsPresent());
+        assertEquals("Logout Successful!", a.getText());
+        a.accept();
+
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("signin")));
+        assertTrue(driver.getCurrentUrl().contains("/signin"));
+    }
+
+    // —————————————————————— HELPER ——————————————————————
+    private void loginAsJobseeker() {
+        driver.get(BASE_URL + "/signin");
+        wait.until(ExpectedConditions.presenceOfElementLocated(By.id("email")))
+            .sendKeys("ibrahim@gmail.com");
+        driver.findElement(By.id("password")).sendKeys("123456");
+        driver.findElement(By.id("signin")).click();
+
+        Alert a = wait.until(ExpectedConditions.alertIsPresent());
+        assertEquals("Logged in successfully!", a.getText());
+        a.accept();
+    }
 
 
     
