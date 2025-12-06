@@ -19,7 +19,7 @@ public class MernAppTests {
 
     private WebDriver driver;
     private WebDriverWait wait;
-    private static final String BASE_URL = "http://13.61.134.227:8082/signup";
+    private static final String BASE_URL = "http://13.61.134.227:8082";
     private static final Duration TIMEOUT = Duration.ofSeconds(10);
 
     @BeforeEach
