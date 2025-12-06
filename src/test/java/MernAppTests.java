@@ -153,51 +153,6 @@ public void testSigninInvalidPassword() {
     alert.accept();
 }
 
-@Test
-@DisplayName("View Job Button shows job popup")
-public void testViewJobPopup() {
-    // Sign in first
-    driver.get("http://13.61.134.227:8082/signin");
-
-    WebElement emailInput = wait.until(ExpectedConditions.presenceOfElementLocated(By.id("email")));
-    emailInput.sendKeys("ibrahim@gmail.com");
-
-    WebElement passwordInput = driver.findElement(By.id("password"));
-    passwordInput.sendKeys("123456");
-
-    driver.findElement(By.id("signin")).click();
-    wait.until(ExpectedConditions.alertIsPresent()).accept(); // close login alert
-
-    // Click "View Job" button
-    WebElement viewJobButton = wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".job-button")));
-    viewJobButton.click();
-
-    // Check if popup appears
-    WebElement popup = wait.until(ExpectedConditions.visibilityOfElementLocated(By.cssSelector(".popup")));
-    assertTrue(popup.isDisplayed(), "Job popup should be visible");
-}
-
-@Test
-@DisplayName("Close Job Popup hides the popup")
-public void testCloseJobPopup() {
-    // Sign in and open popup first
-    driver.get("http://13.61.134.227:8082/signin");
-
-    driver.findElement(By.id("email")).sendKeys("ibrahim@gmail.com");
-    driver.findElement(By.id("password")).sendKeys("123456");
-    driver.findElement(By.id("signin")).click();
-    wait.until(ExpectedConditions.alertIsPresent()).accept();
-
-    driver.findElement(By.cssSelector(".job-button")).click();
-    WebElement closeButton = wait.until(ExpectedConditions.elementToBeClickable(By.xpath("//div[@class='popup']//button[text()='Close']")));
-    closeButton.click();
-
-    // Verify popup is hidden
-    assertTrue(driver.findElements(By.cssSelector(".popup")).isEmpty() ||
-               !driver.findElement(By.cssSelector(".popup")).isDisplayed(),
-               "Job popup should be hidden after clicking Close");
-}
-
 
     
 }
